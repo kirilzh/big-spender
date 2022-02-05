@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  frontend:
+    image: node:latest
+    working_dir: /app
+    user: 'node'
+    ports: 
+      - '3000:3000'
+    volumes:
+      - .:/app
+    entrypoint: "npm run start"

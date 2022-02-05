@@ -1,14 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-const App = () => {
-    return (
-        <div>
-            <div>with tsx</div>
-            <h2>Sample title for hot reload</h2>
-            <p>testing live reload</p>
-        </div>
-    )
-}
+import { App } from './app';
 
 ReactDOM.render(<App />, document.querySelector('#root'));

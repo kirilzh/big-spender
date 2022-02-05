@@ -5,18 +5,25 @@ import replace from '@rollup/plugin-replace';
 import livereload from 'rollup-plugin-livereload';
 import serve from 'rollup-plugin-serve';
 import typescript from '@rollup/plugin-typescript';
+import path from 'path';
 
 export default {
-    input: "./src/index.tsx",
+    input: path.join(__dirname, 'src', 'index.tsx'),
     output: {
-        file: "dist/bundle.js",
+        file: path.join(__dirname, 'dist', 'bundle.js'),
         format: "iife",
         sourcemap: true
+    },
+    watch: {
+        clearScreen: false
     },
     plugins: [
         typescript(),
         nodeResolve({ extensions: ['.js'] }),
-        replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+        replace({ 
+            preventAssignment: true,
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }),
         babel({ presets: ['@babel/preset-react']}),
         commonjs(),
         serve({
@@ -24,7 +31,7 @@ export default {
             verbose: true,
             contentBase: ['', 'src'],
             host: '0.0.0.0',
-            port: 3000
+            port: 3001
         }),
         livereload({ watch: 'dist' })
     ]
