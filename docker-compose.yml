@@ -10,3 +10,11 @@ services:
     volumes:
       - .:/app
     entrypoint: "npm run start"
+
+  database:
+    image: amazon/dynamodb-local:latest
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./volumes/dynamodblocal:/home/dynamodblocal/data
