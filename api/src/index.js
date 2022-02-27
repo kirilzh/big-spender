@@ -1,11 +1,15 @@
 import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
 
 const dbClient = new DynamoDBClient({
+    credentials: {
+        accessKeyId: 'xxx',
+        secretAccessKey: 'xxx'
+    },
     region: 'local',
     endpoint: 'http://172.25.0.1:8000'
 });
 
-dbClient.send(new ListTablesCommand())
+dbClient.send(new ListTablesCommand({}))
     .then((tables) => {
         console.log(tables);
     })
