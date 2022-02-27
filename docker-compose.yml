@@ -8,14 +8,26 @@ services:
     ports: 
       - '3000:3000'
     volumes:
-      - .:/app
+      - ./frontend:/app
+    entrypoint: "npm run start"
+
+  backend:
+    image: node:latest
+    depends_on:
+      - database
+    working_dir: /app
+    user: 'node'
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./api:/app
     entrypoint: "npm run start"
 
   database:
     image: amazon/dynamodb-local:latest
+    user: root
     command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data
     ports:
       - '8000:8000'
     volumes:
       - ./volumes/dynamodblocal:/home/dynamodblocal/data
-    user: root
