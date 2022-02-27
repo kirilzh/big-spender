@@ -2,7 +2,9 @@ import { FC, useState } from 'react';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 export const Login: FC = () => {
   const [username, setUsername] = useState('');
@@ -45,6 +47,16 @@ export const Login: FC = () => {
           <Button color="primary" variant="contained">
             Login
           </Button>
+        </Grid>
+
+        <Grid item xs={12} display="flex" justifyContent="center">
+          <Typography variant="body2" display="inline">
+            Don't have an account?
+          </Typography>
+          &nbsp;
+          <Link variant="body2">
+            Register
+          </Link>
         </Grid>
       </Grid>
     </Container>
