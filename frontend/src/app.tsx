@@ -1,35 +1,21 @@
-import { Fragment } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
+import { ROUTES } from '../config/constants';
+import { Login } from './pages/login';
+import { Dashboard } from './pages/dashboard';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
 export const App = () => {
   return (
-    <Fragment>
+    <BrowserRouter>
       <CssBaseline/>
-      <Container disableGutters maxWidth={false}>
-        <AppBar position="relative">
-          <Container maxWidth="lg" disableGutters>
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                BigSpender
-              </Typography>
-
-              <Button color="secondary" variant="contained">
-                Login
-              </Button>
-            </Toolbar>
-          </Container>
-        </AppBar>
-        <Container maxWidth="lg">
-          <Typography variant="h4">
-            Static website
-          </Typography>
-        </Container>
+      <Container maxWidth={false} disableGutters>
+        <Routes>
+          <Route path={ROUTES.ROOT} element={<Login/>}>
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard/>}/>
+          </Route>
+        </Routes>
       </Container>
-    </Fragment>
+    </BrowserRouter>
   )
 }
