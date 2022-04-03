@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
 
 const dbClient = new DynamoDBClient({
@@ -10,8 +11,11 @@ const dbClient = new DynamoDBClient({
     endpoint: 'http://database:8000'
 });
 
-const app = express();
+const jsonParser = bodyParser.json();
+export const app = express();
 const port = 3001;
+
+app.use(jsonParser);
 
 app.listen(port, () => {
     console.log(`API running on port: ${port}`);
@@ -28,3 +32,4 @@ app.get('/', (req, res) => {
 
     res.send('Express');
 });
+
