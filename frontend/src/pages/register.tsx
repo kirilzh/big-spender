@@ -1,14 +1,14 @@
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 import { ROUTES } from '../../config/constants';
 
-export const Login: FC = () => {
+export const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -48,17 +48,17 @@ export const Login: FC = () => {
 
         <Grid item xs={12}>
           <Button color="primary" variant="contained">
-            Login
+            Register
           </Button>
         </Grid>
 
         <Grid item xs={12} display="flex" justifyContent="center">
           <Typography variant="body2" display="inline">
-            Don't have an account?
+            Already have an account?
           </Typography>
           &nbsp;
-          <Link variant="body2" onClick={() => navigate(ROUTES.REGISTER)}>
-            Register
+          <Link variant="body2" onClick={() => navigate(ROUTES.ROOT)}>
+            Log in
           </Link>
         </Grid>
       </Grid>
