@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { ROUTES } from '../../config/constants';
+import { PageLayoutAuth } from '../common/page-layout-auth';
 
 export const Login: FC = () => {
   const [username, setUsername] = useState('');
@@ -14,15 +14,7 @@ export const Login: FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '100vh'
-      }}
-    >
+    <PageLayoutAuth>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -62,6 +54,6 @@ export const Login: FC = () => {
           </Link>
         </Grid>
       </Grid>
-    </Container>
+    </PageLayoutAuth>
   )
 }

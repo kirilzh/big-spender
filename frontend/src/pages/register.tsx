@@ -1,41 +1,37 @@
 import { FC, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { ROUTES } from '../../config/constants';
+import { PageLayoutAuth } from '../common/page-layout-auth';
+import { API, request } from '../common/api';
 
 export const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const register = useCallback(() => {
-    fetch('https://localhost:3001/register', {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ username, password }),
-      method: 'POST'
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((e) => console.log(e));
-  }, [username, password]);
+  const register = useCallback(
+    () => {
+      request(
+        API.Register,
+        {
+          body: JSON.stringify({ username, password }),
+          method: 'POST'
+        }
+      )
+        .then(() => {
+          navigate(ROUTES.DASHBOARD)
+        })
+    },
+    [username, password]
+  );
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '100vh'
-      }}
-    >
+    <PageLayoutAuth>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
@@ -56,6 +52,7 @@ export const Register: FC = () => {
             onChange={(event) => setPassword(event.target.value)}
             value={password}
             variant="outlined"
+            type="password"
           />
         </Grid>
 
@@ -75,6 +72,6 @@ export const Register: FC = () => {
           </Link>
         </Grid>
       </Grid>
-    </Container>
+    </PageLayoutAuth>
   )
 }
