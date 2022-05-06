@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -12,6 +12,19 @@ export const Register: FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  const register = useCallback(() => {
+    fetch('https://localhost:3001/register', {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password }),
+      method: 'POST'
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((e) => console.log(e));
+  }, [username, password]);
 
   return (
     <Container
@@ -47,7 +60,7 @@ export const Register: FC = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={register}>
             Register
           </Button>
         </Grid>
