@@ -3,7 +3,11 @@ import fs from 'fs';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
-import { DynamoDBClient, ListTablesCommand } from '@aws-sdk/client-dynamodb';
+import {
+    DynamoDBClient,
+    PutItemCommand,
+    ScanCommand,
+} from '@aws-sdk/client-dynamodb';
 
 const __dirname = new URL('.', import.meta.url).pathname;
 
@@ -29,9 +33,11 @@ app.use(corsMiddleWare);
 https.createServer({ key, cert }, app).listen(port);
 
 app.get('/', (req, res) => {
-    dbClient.send(new ListTablesCommand({}))
-        .then((tables) => {
-            console.log(tables);
+    dbClient.send(new ScanCommand({ TableName: 'Users' }))
+        .then(({ Items }) => {
+            Items.forEach((item) => {
+                console.log(JSON.stringify(item));
+            })
         })
         .catch((e) => {
             console.log(e);
@@ -42,14 +48,32 @@ app.get('/', (req, res) => {
 
 app.post('/register', (req, res) => {
     console.log(req.body);
+    dbClient.send(new PutItemCommand({
+        TableName: 'Users',
+        Item: {
+            Username: {
+                S: req.body.username
+            },
+            Password: {
+                S: req.body.password
+            }
+        },
+        ReturnConsumedCapacity: 'TOTAL'
+    }))
+        .then((data) => {
+            console.log('data', data);
+            res.status(200).send({ body: 'received' });
+        })
+        .catch((e) => {
+            console.log('error', e);
+        })
 
-    res.status(200).send({ body: 'received' });
 })
 
 function corsMiddleWare(req, res, next) {
-    const origin = req.get('origin');
+    // const origin = req.get('origin');
 
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
 }
